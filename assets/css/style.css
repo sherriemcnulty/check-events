@@ -1,0 +1,25 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 30px;
+}
+
+#locationMap {
+    margin: auto;
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+}
+
+#map {
+    height: 400px;
+    width: 400px;
+    margin: auto;
+    padding: 0;
+}
