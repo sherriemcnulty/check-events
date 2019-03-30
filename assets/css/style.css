@@ -1,4 +1,19 @@
 .bg-custom {
     border: none;
-    background-image: linear-gradient(to right,rgb(51, 146, 235), rgb(14, 109, 197));
+    background-image: linear-gradient(to right, rgb(51, 146, 235), rgb(14, 109, 197));
+}
+
+#streetMap {
+    margin: auto;
+    padding: 3px;
+    width: 350px;
+    height: 350px;
+    border: 1px solid lightgray;
+}
+
+#map {
+    height: 400px;
+    width: 400px;
+    margin: auto;
+    padding: 0;
 }
