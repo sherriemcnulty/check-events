@@ -1,4 +1,19 @@
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
 .bg-custom {
-    border: none;
-    background-image: linear-gradient(to right,rgb(51, 146, 235), rgb(14, 109, 197));
+    background-image: linear-gradient(to right,rgba(51, 146, 235, 0.85), rgba(0, 60, 138, 0.85));
+    padding: 70px;
+}
+
+#text_container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.dropdown {
+    margin-top: 31px;
 }
