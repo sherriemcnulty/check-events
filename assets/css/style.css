@@ -1,19 +1,20 @@
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
 .bg-custom {
-    border: none;
+
+    background-image: linear-gradient(to right,rgba(51, 146, 235, 0.85), rgba(0, 60, 138, 0.85));
+    padding: 70px;
+}
+
+#text_container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+    border: none; {
     background-image: linear-gradient(to right, rgb(51, 146, 235), rgb(14, 109, 197));
-}
-
-#streetMap {
-    margin: auto;
-    padding: 3px;
-    width: 350px;
-    height: 350px;
-    border: 1px solid lightgray;
-}
-
-#map {
-    height: 400px;
-    width: 400px;
-    margin: auto;
-    padding: 0;
 }
