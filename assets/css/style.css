@@ -1,8 +1,15 @@
+html {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
 body {
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
 }
-
 
 .bg-custom {
 
@@ -13,8 +20,5 @@ body {
 #text_container {
     margin: 0 auto;
     max-width: 1000px;
-}
-
-    border: none; {
-    background-image: linear-gradient(to right, rgb(51, 146, 235), rgb(14, 109, 197));
+    /* border: 1px solid red; */
 }
