@@ -1,7 +1,6 @@
-#map {
-   height: 400px;
-   width: 400px;
+#street-map {
+   height: 200px;
+   width: 200px;
    padding: 3px;
-   border;
-   1px solid lightgray;
+   border: 1px solid lightgray;
 }

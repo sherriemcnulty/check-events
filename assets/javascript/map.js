@@ -21,7 +21,7 @@ function renderMap(X, Y) {
      ) {
 
 
-          map = new Map("streetMap", {
+          map = new Map("street-map", {
                basemap: "streets",
                center: coordinates,
                zoom: 15,
@@ -47,3 +47,6 @@ function renderMap(X, Y) {
           }
      });
 }
+
+// keep this for testing
+// renderMap(-77.5421208, 37.574298); 
