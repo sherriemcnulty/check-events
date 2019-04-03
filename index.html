@@ -19,22 +19,18 @@
     <title>Check Events</title>
   </head>
 
-  <body class="d-flex justify-content-center" background="assets/images/Wallpaper 1.jpg">
+  <body background="assets/images/Wallpaper 1.jpg">
 
     <!-- Content -->
     
-    <div>
-        <div id="text_container" class="div bg-custom rounded-0 text-light shadow-lg">
-            <h1 class="display-4 text-center">Welcome to Check Events!</h1>
-            <p class="lead text-center">Check Events is the fastest way to see events in your area, click below to get started.</p>     
-        
-
-       
+    <div class="container-fluid h-100">  
+      <div class="row h-100">
+        <div id="text_container" class="div bg-custom rounded-0 text-light shadow-lg h-100">
+          <h1 class="display-4 text-center">Welcome to Check Events!</h1>
+          <p class="lead text-center">Check Events is the fastest way to see events in your area, click below to get started.</p>     
           <br>  
-          
           <!-- Checkboxes inside rows & collumns 1 -->
           <div class="container">
-
             <div class="row">
               <div class="col-md"></div>
               <div class="col-md">
@@ -47,35 +43,28 @@
               </div>
               <div class="col-md"></div>
             </div>
-
-        <!-- Zip code & Range inside rows & collumns -->
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4 m-auto">
+          </div>
+          <!-- Zip code & Range inside rows & collumns -->
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 m-auto">
                 <form class="mt-3">
-                    <div class="form-group m-auto text-center">
-                      <label for="Zip Code">Zip Code</label>
-                      <input type="text" class="form-control rounded-0" id="zip_code_input" aria-describedby="emailHelp" placeholder="Enter Zip Code">
-                    </div>
-                  </form>
+                  <div class="form-group m-auto text-center">
+                    <label for="Zip Code">Zip Code</label>
+                    <input type="text" class="form-control rounded-0" id="zip_code_input" aria-describedby="emailHelp" placeholder="Enter Zip Code">
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-12 text-center mt-3">
+                <!-- Check events button -->
+                <a id="check_events_button" class="btn btn-light text-secondary btn-lg rounded-0 shadow-sm m-auto" href="#" 
+                role="button">Check Events</a>
+              </div>
             </div>
-            
-            <div class="col-md-12 text-center mt-3">
-              <!-- Check events button -->
-              <a id="check_events_button " class="btn btn-light text-secondary btn-lg rounded-0 shadow-sm m-auto" href="#" 
-              role="button">Check Events</a>
-            </div>
-      
           </div>
         </div>
-<br>
       </div>
-
-        <br>
-       
-
-      </div>
-  </div>
+    </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
