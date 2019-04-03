@@ -2,12 +2,12 @@
 try {
     // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyDCZf8gynrLPgXluYCKJji0N71TrHHSR9k",
-        authDomain: "classtest-6cb54.firebaseapp.com",
-        databaseURL: "https://classtest-6cb54.firebaseio.com",
-        projectId: "classtest-6cb54",
-        storageBucket: "classtest-6cb54.appspot.com",
-        messagingSenderId: "77999444853"
+        apiKey: "AIzaSyDNeq9zcdrITqqOosGZ4H43pzWbjc5vVDg",
+        authDomain: "check-events-c81cd.firebaseapp.com",
+        databaseURL: "https://check-events-c81cd.firebaseio.com",
+        projectId: "check-events-c81cd",
+        storageBucket: "",
+        messagingSenderId: "1005018922563"
     };
     firebase.initializeApp(config);
 
@@ -46,36 +46,37 @@ if (localStorage.getItem('CE_app_unique_user_id')) {
         console.log(keys);
         // if the key in database matches the uid on local storage...
         if (keys.indexOf(uid) != -1) {
-        console.log('This key exists!');
-        console.log(Object.keys(data.val()));
-        database.ref('data').child(uid).on('value', function(obj){
-            console.log(obj.val());
-            var user_obj = obj.val();
-            console.log(user_obj);
-            console.log(user_obj['interests'].length);
-            console.log(user_obj['zip']);
-            // console.log('=======================');
-            // get key
-            user_key = uid;
-            // get interests
-            for (var i = 0; i < user_obj['interests'].length; i++) {
-                user_interests.push(user_obj['interests'][i]);
-            }
-            // console.log(user_interests);
-            // get zip
-            user_zip = user_obj['zip'];
-            // console.log(user_zip);
+            console.log('This key exists!');
+            console.log(Object.keys(data.val()));
+            database.ref('data').child(uid).on('value', function (obj) {
+                console.log(obj.val());
+                var user_obj = obj.val();
+                console.log(user_obj);
+                console.log(user_obj['interests'].length);
+                console.log(user_obj['zip']);
+                // console.log('=======================');
+                // get key
+                user_key = uid;
+                // get interests
+                for (var i = 0; i < user_obj['interests'].length; i++) {
+                    user_interests.push(user_obj['interests'][i]);
+                }
+                // console.log(user_interests);
+                // get zip
+                user_zip = user_obj['zip'];
+                // console.log(user_zip);
 
-        });
-        // console.log('===== RESULTS =====');
-        // console.log(user_key);
-        // call function to check the checkboxes the user is interested in
-        checkInterest(user_interests);
-        // call function to load the user's last zip input
-        checkZip(user_zip);
+            });
+            // console.log('===== RESULTS =====');
+            // console.log(user_key);
+            // call function to check the checkboxes the user is interested in
+            checkInterest(user_interests);
+            // call function to load the user's last zip input
+            checkZip(user_zip);
+        }
     }
-    } console.log('why doesn\'t this print?');
-    
+    console.log('why doesn\'t this print?');
+
 } else {
     // test that it does not exist by logging it
     console.log('local storage id does not exist');
@@ -84,21 +85,22 @@ if (localStorage.getItem('CE_app_unique_user_id')) {
     // declare a global variable 'user_key' to be the same as the retrieved unique id retrieved from the database and stored to local storage...
     user_key = localStorage.getItem('CE_app_unique_user_id');
     // test that the ids are being stored correctly by logging both to the console...
-    console.log('Had to create a new local storage id. It is: '+localStorage.getItem('CE_app_unique_user_id'));
+    console.log('Had to create a new local storage id. It is: ' + localStorage.getItem('CE_app_unique_user_id'));
     // ...
     console.log('new user key is: ' + user_key);
 }
 
 // tests to see if retrieving user data is successfully global
 gatheredData(user_key, user_interests, user_zip);
+
 function gatheredData() {
     // wait for the data to be retrieved from database
-    setTimeout(function() {
+    setTimeout(function () {
         console.log('===== GATHERED DATA =====');
         console.log(user_key);
         console.log(user_interests);
         console.log(user_zip);
-    }, 5000 ); // waits 900ms before test logging
+    }, 5000); // waits 900ms before test logging
 }
 
 
@@ -138,12 +140,13 @@ for (var i = 0; i < categories.length; i++) {
 function checkInterest(interested) {
     for (var i = 0; i < interested.length; i++) {
         // test log 
-        console.log('User has '+interested.length+' interests.');
+        console.log('User has ' + interested.length + ' interests.');
         var interest = interested[i];
         // for each interest, we want to target that interest's checkbox, and check it
         $(`input[value='${interest}']`).prop('checked', true);
     }
 }
+
 function checkZip(zip) {
     $('#zip_code_input').val(zip);
 }
@@ -151,13 +154,13 @@ function checkZip(zip) {
 // obtain reference to checkboxes named interests[]
 var interests = $('input[name="interests[]"]');
 // test 'interests' are being successfully retreived
-console.log('here are the interests: '+interests);
+console.log('here are the interests: ' + interests);
 
 // capture all inputs when #check_events_button is clicked
-$(document).on('click', '#check_events_button', function(event) {
+$(document).on('click', '#check_events_button', function (event) {
     // empty the array of interests to recapture the updated checkboxes...
     user_interests = [];
-    console.log('Retrieved '+user_interests.length+' interests from user');
+    console.log('Retrieved ' + user_interests.length + ' interests from user');
     // prevent button from self click
     event.preventDefault();
     // capture each user checked interest
@@ -173,7 +176,7 @@ $(document).on('click', '#check_events_button', function(event) {
         }
     }
     // test updated user_interests
-    console.log('User interests has updated to '+user_interests.length+' interests...');
+    console.log('User interests has updated to ' + user_interests.length + ' interests...');
 
     // get user's zip code input
     let user_zip = $('#zip_code_input').val().trim();
@@ -192,7 +195,7 @@ $(document).on('click', '#check_events_button', function(event) {
         };
         // test log that user_data was successfully generated
         console.log(user_data);
-        
+
         // declare an empty object variable that will be used as a cargo to pass in updated data to the database
         var updates = {};
         // create a database key/url pathway that will hold the users stored data
