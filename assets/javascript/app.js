@@ -112,7 +112,25 @@ $(document).ready(function() {
     // ===========================================================
 
     // set a global variable that stores all 24 categories used in meetup's API...
-    var categories = ['Outdoors & Adventure', 'Tech', 'Family', 'Health & Wellness', 'Sports & Fitness', 'Learning', 'Photography', 'Food & Drink', 'Writing', 'Language & Culture', 'Music', 'Movements', 'LGBTQ', 'Film', 'Sci-Fi & Games', 'Beliefs', 'Arts', 'Book Clubs', 'Dance', 'Pets', 'Hobbies & Crafts', 'Fashion & Beauty', 'Social', 'Career & Business'];
+    // var categories = ['Outdoors & Adventure', 'Tech', 'Family', 'Health & Wellness', 'Sports & Fitness', 'Learning', 'Photography', 'Food & Drink', 'Writing', 'Language & Culture', 'Music', 'Movements', 'LGBTQ', 'Film', 'Sci-Fi & Games', 'Beliefs', 'Arts', 'Book Clubs', 'Dance', 'Pets', 'Hobbies & Crafts', 'Fashion & Beauty', 'Social', 'Career & Business'];
+    let categories = [
+        "Outdoors",
+        "Cooking",
+        "Arts and Crafts",
+        "Academic",
+        "Sports",
+        "Theater",
+        "Engineering",
+        "STEM",
+        "Art design",
+        "Child Care",
+        "Computer",
+        "Astronomy",
+        "Geology",
+        "Martial Arts",
+        "Fishing",
+        "Running"
+      ];
     // test log the categories variable...
     console.log(categories);
     // use a for loop to dynamically generate check box input fields for each category...
@@ -212,6 +230,104 @@ $(document).ready(function() {
             // uses firebases's update() function to update the unique database pathway with user_data...
             return database.ref().update(updates);
         }
-        //==========================================================
+        //---------------------
+        // declare an empty object that will hold each responses data...
+        let ajax_responses = {};
+
+        // make an ajax call for each interest
+        for (let i = 0; i < user_interests.length; i++) {
+            
+            $.ajax({
+                url:
+                  `https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/search/?radius=50&zip=${user_zip}&current_page=1&per_page=12&sort=date_asc&topic=${user_interests[i]}&start_date=2019-04-06..&api_key=x428fd5p5e9xmjfqwngw9fag`,
+                method: "GET"
+              }).then(function(data) {
+                console.log(data);
+                console.log(data.results[i].assetName);
+                //push data into ajax_response obj
+                ajax_responses[i] = data.results[i].assetName;
+
+              });
+        } 
+
+        console.log('our ajax obj keys: '+ajax_responses);
+
+
+
+
+
+
+        // load event options dynamically...
+        var event_options = $('#event_options');
+        for (let i = 0; i < 12; i++) {
+            event_options.append(`
+            <div class="col-md-5 p-3 border m-2">
+                <div class="row text-center">
+                    <div class="col-md-5">
+                        <h3>Event Title</h3>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <p>Date/Time</p>
+                    </div>
+                </div>
+                <hr class="bg-light">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem deserunt nulla repellat fugit illum dignissimos.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Name of Host</p>
+                        <p>Address of Event, Richmond, VA</p>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-light rounded-0" id="more_button" data-toggle="modal" data-target="#exampleModal">More</button>
+
+                        <div class="modal fade text-body rounded-0 text-center" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content rounded-0">      
+                        <div class="modal-body rounded-0 bg-light">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5 m-auto">
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Name of Event</h3>
+                                </div>
+                                <div class="col-md-12" id="modal_descr">
+                                    <p> Description goes here...</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>Organization Name</p>
+                                    <p>(888) 555-3456</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+            `);
+        }
+        
+        
     });
 });
+
+
+
+        

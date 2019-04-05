@@ -1,24 +1,23 @@
-html {
-    margin: 0;
-    height: 100%;
-    width: 100%;
+html, body {
+	height: 100%;
+	width: 100%;
 }
 
 body {
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    width: 100%;
+	background-image: url('https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
 }
 
 .bg-custom {
-
-    background-image: linear-gradient(to right,rgba(51, 146, 235, 0.85), rgba(0, 60, 138, 0.85));
-    padding: 70px;
+	background-image: linear-gradient(to right,rgba(51, 146, 235, 0.85), rgba(0, 60, 138, 0.85));
 }
 
-#text_container {
-    margin: 0 auto;
-    max-width: 1000px;
-    /* border: 1px solid red; */
+.box {
+	display: inline-block;
+	height: 120px;
+	width: 160px;
+	background-color: #fff;
+	border: 1px solid #333;
 }
