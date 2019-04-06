@@ -21,7 +21,7 @@ $(document).ready(function() {
     // localStorage.setItem('id', database.ref().child('data').push().key);
     // =================================================
     // clear local storage unique id to test as new user
-    localStorage.clear();
+    // localStorage.clear();
     // use existing unique user_key to pull data and test returning user experience...
     // localStorage.setItem('CE_app_unique_user_id', '-LbR6BxBLel84VvGrCe_');
     // =================================================
@@ -180,6 +180,22 @@ $(document).ready(function() {
     console.log('here are the interests: '+interests);
     // capture all inputs when #check_events_button is clicked. Use event delegation since the check_events_button will be checking for elements that exist dynamically...
     $(document).on('click', '#check_events_button', function(event) {
+        event.preventDefault();
+        triggerEvent();
+    });
+    // trigger click if 'Enter' is pressed
+    $(document).keypress(function(e) {
+        // e.preventDefault();
+        // if the enter key is pressed
+        if (e.which === 13) {
+            // trigger #check_events_button click event 
+            // $(document > '#check_events_button').click();
+            console.log('Enter button was pressed!');
+            triggerEvent();
+        }
+    });
+
+    function triggerEvent() {
         // empty the array of interests to recapture the updated checkboxes...This will prevent from doubling the interests by adding do the array...
         user_interests = [];
         // test logs that the array has been emptied. Should print 0...
@@ -231,10 +247,10 @@ $(document).ready(function() {
             return database.ref().update(updates);
         }
         //---------------------
-        // declare an empty object that will hold each responses data...
-        let ajax_responses = {};
+        // declare an empty array that will hold all of our response data...
+        var results = [];
 
-        // make an ajax call for each interest
+        // // make an ajax call for each interest
         for (let i = 0; i < user_interests.length; i++) {
             
             $.ajax({
@@ -244,90 +260,155 @@ $(document).ready(function() {
               }).then(function(data) {
                 console.log(data);
                 console.log(data.results[i].assetName);
-                //push data into ajax_response obj
-                ajax_responses[i] = data.results[i].assetName;
+                // create a variable to store all of the response's data
+                var events = data.results; // will return 12 objs
+                // test log events...
+                console.log(events.length); // success!!
+                // test log the events obj containing 12 sub-objs
+                console.log(events);
+                // create a for loop that will loop through the events and construct simpler objs
+                for (let j = 0; j < events.length; j++) {
+                    let tmpObj = {
+                        name: events[j].assetName,
+                        date: events[j].activityStartDate,
+                        org: events[j].organization.organizationName,
+                        phone: events[j].componentInUrlAdr.contactPhone,
+                        stAddr: events[j].place.addressLine1Txt,
+                        city: events[j].place.cityName,
+                        state: events[j].place.stateProvinceCode,
+                        descr: events[j].assetDescriptions[0].description,
+                        lat: events[j].place.latitude,
+                        lon: events[j].place.latitude
+                    };
+                    // push each temporary obj into the global variable
+                    results.push(tmpObj);
+                }
 
-              });
+              }).then(function(){
+                console.log('AJAX call #'+i+' complete. Data was stored...');
+              }).then();
         } 
 
-        console.log('our ajax obj keys: '+ajax_responses);
-
-
-
-
-
-
+        // declare a function that will sort the results[] by date...
+        function sortByClosestDate(arr, prop) {
+            return arr.sort(function (a, b) {
+                let x = a[prop],
+                    y = b[prop];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+        // call that function and store the sorted arr in a new variable...
+        sortByClosestDate(results);
+        console.log('The results are: '+ results);
+      
         // load event options dynamically...
         var event_options = $('#event_options');
-        for (let i = 0; i < 12; i++) {
-            event_options.append(`
-            <div class="col-md-5 p-3 border m-2">
-                <div class="row text-center">
-                    <div class="col-md-5">
-                        <h3>Event Title</h3>
-                    </div>
-                    <div class="col-md-3"></div>
-                    <div class="col-md-2">
-                        <p>Date/Time</p>
-                    </div>
-                </div>
-                <hr class="bg-light">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem deserunt nulla repellat fugit illum dignissimos.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p>Name of Host</p>
-                        <p>Address of Event, Richmond, VA</p>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-light rounded-0" id="more_button" data-toggle="modal" data-target="#exampleModal">More</button>
+        //======================================
+        // needs to load after 7 milli-seconds...until more research is done for async/await, this is a solution...
+        setTimeout(function(){
+            if (results.length === 0) {
+                alert('Sorry, there isn\'t anything happening in your area at the moment :(');
+            }
+            for (let i = 0; i < 12; i++) {
+                let name = results[i].name,
+                    date = results[i].date,
+                    descr = results[i].descr,
+                    city = results[i].city,
+                    state = results[i].state,
+                    addr = results[i].stAddr,
+                    phone = results[i].phone,
+                    org = results[i].org;
+                    // descr = descr.substr(0, descr.length-4);
+                    date = date.substr(0, date.length-9);
+                    lon = results[i].lon;
+                    lat = results[i].lat;
 
-                        <div class="modal fade text-body rounded-0 text-center" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content rounded-0">      
-                        <div class="modal-body rounded-0 bg-light">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-5 m-auto">
-                                    <div class="box"></div>
+                    // fix undefined data...
+                    if (name === undefined) {
+                        name = 'N/A';
+                    } else if (date === undefined) {
+                        date = 'N/A';
+                    } else if (descr === undefined) {
+                        descr = 'N/A';
+                    } else if (city === undefined) {
+                        city = 'N/A';
+                    } else if (state === undefined) {
+                        state = 'N/A';
+                    } else if (addr === undefined) {
+                        addr = 'N/A';
+                    } else if (phone === undefined) {
+                        phone = 'N/A';
+                    } else if (org === undefined) {
+                        org = 'N/A';
+                    } else return;
+
+                    var map = $(`
+                    <iframe src="" frameborder="0">${renderMap}</iframe>
+                    `);
+    
+                event_options.append(`
+                <div class="col-md-5 p-3 border m-2">
+                    <div class="row text-center text-light">
+                        <div class="col-md-12">
+                            <h3>Name: ${name}</h3>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-12">
+                            <p>Date: ${date}</p>
+                        </div>
+                    </div>
+                    <hr class="bg-light">
+                    <div class="row text-light">
+                        <div class="col-md-12">
+                            <p>Orginization: ${org}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-light">
+                            <p>Name: ${name}</p>
+                            <p>Address: ${addr}, ${city}, ${state}</p>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-light rounded-0" id="more_button" data-toggle="modal" data-target="#exampleModal">More</button>
+    
+                            <div class="modal fade text-body rounded-0 text-center" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content rounded-0">      
+                            <div class="modal-body rounded-0 bg-light">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 m-auto">
+                                        <div class="box"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3>Name of Event</h3>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Name: ${name}</h3>
+                                    </div>
+                                    <div class="col-md-12" id="modal_descr">
+                                        <p> Description: ${descr}</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-12" id="modal_descr">
-                                    <p> Description goes here...</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>Organization Name</p>
-                                    <p>(888) 555-3456</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="box"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>Name: ${name}</p>
+                                        <p>Phone Number: ${phone}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="box"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-            `);
-        }
-        
-        
-    });
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+                `);
+            }
+        }, 700);
+    }
 });
-
-
-
-        
